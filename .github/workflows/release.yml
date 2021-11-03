@@ -62,9 +62,9 @@ jobs:
         run: echo ${{ hashFiles('./kernel.asar') }}
           
       - name: Hashes
-        run: echo ${{ hashFiles('./dist/kernel.asar') }}
+        run: echo ${{ hashFiles('./electron/dist/kernel.asar') }}
           
-      - if: ${{ hashFiles('./kernel.asar') == hashFiles('./dist/kernel.asar') }}
+      - if: hashFiles('./kernel.asar') == hashFiles('./electron/dist/kernel.asar')
         uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
