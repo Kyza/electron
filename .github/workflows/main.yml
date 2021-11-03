@@ -9,6 +9,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Newline
+        run: |
+          NEWLINE=$(cat << EOF
+          EOF)
+          NEWLINE="${NEWLINE//'%'/'%25'}"
+          NEWLINE="${NEWLINE//$'\n'/'%0A'}"
+          NEWLINE="${NEWLINE//$'\r'/'%0D'}"
+          echo "::set-output name=content::$NEWLINE"
+        id: newline
+        
+      - name: Current Date
+        run: echo "::set-output name=content::$(date +'%Y-%m-%d %H:%M:%S')"
+        id: now
+        
+      - uses: benjlevesque/short-sha@v1.2
+        id: short-sha
+
       - uses: actions/checkout@v2
         with:
           path: electron
@@ -29,30 +46,14 @@ jobs:
         with:  
           version: 6.20.1
           
-      - run: |
+      - name: Build ASAR
+        run: |
           cd browser
           pnpm i
           cd ../electron
           pnpm i
           pnpm run build
           
-      - name: Newline
-        run: |
-          NEWLINE=$(cat << EOF
-          EOF)
-          NEWLINE="${NEWLINE//'%'/'%25'}"
-          NEWLINE="${NEWLINE//$'\n'/'%0A'}"
-          NEWLINE="${NEWLINE//$'\r'/'%0D'}"
-          echo "::set-output name=content::$NEWLINE"
-        id: newline
-        
-      - name: Current Date
-        run: echo "::set-output name=content::$(date +'%Y-%m-%d %H:%M:%S')"
-        id: now
-        
-      - uses: benjlevesque/short-sha@v1.2
-        id: short-sha
-
       - name: Release
         uses: softprops/action-gh-release@v0.1.13
         with:
