@@ -1,4 +1,4 @@
-name: CI
+name: Build
 
 on:
   push:
@@ -51,5 +51,5 @@ jobs:
         with:
           name: ${{ github.sha }}
           tag_name: ${{ hashFiles('./electron/dist/kernel.asar') }}
-          body: ${{ join(github.event.commits.*.message, "${{ steps.newline.outputs.content }}") }}
+          body: ${{ join(github.event.commits.*.message, steps.newline.outputs.content) }}
           files: "electron/dist/kernel.asar"
