@@ -22,9 +22,6 @@ jobs:
       - name: Current Date
         run: echo "::set-output name=content::$(date +'%Y-%m-%d %H:%M:%S')"
         id: now
-        
-      - uses: benjlevesque/short-sha@v1.2
-        id: short-sha
 
       - uses: actions/checkout@v2
         with:
@@ -58,6 +55,6 @@ jobs:
         uses: softprops/action-gh-release@v0.1.13
         with:
           name: ${{ steps.now.outputs.content }}
-          tag_name: ${{ steps.short-sha.outputs.sha }}
+          tag_name: ${{ steps.now.outputs.content }}
           body: ${{ join(github.event.commits.*.message, steps.newline.outputs.content) }}
           files: "electron/dist/kernel.asar"
