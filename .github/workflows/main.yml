@@ -45,11 +45,14 @@ jobs:
           NEWLINE="${NEWLINE//$'\r'/'%0D'}"
           echo "::set-output name=content::$NEWLINE"
         id: newline
+        
+      - name: Current Date
+        run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.13
         with:
-          name: ${{ github.sha }}
-          tag_name: ${{ hashFiles('./electron/dist/kernel.asar') }}
+          name: $NOW
+          tag_name: ${{ github.sha }}
           body: ${{ join(github.event.commits.*.message, steps.newline.outputs.content) }}
           files: "electron/dist/kernel.asar"
