@@ -56,18 +56,9 @@ jobs:
           pnpm run build
           
       - name: Download Previous
-        run: curl https://github.com/Kyza/electron/releases/latest/download/kernel.asar --output kernel.asar
-        
-      - name: Hashes
-        run: echo ${{ hashFiles('./kernel.asar') }}
+        run: curl -L https://github.com/Kyza/electron/releases/latest/download/kernel.asar --output kernel.asar
           
-      - name: Hashes
-        run: echo ${{ hashFiles('./electron/dist/kernel.asar') }}
-          
-      - name: Hashes
-        run: echo ${{ hashFiles('./electron/dist/kernel.asar') }}
-          
-      - if: hashFiles('./kernel.asar') == hashFiles('./electron/dist/kernel.asar')
+      - if: hashFiles('kernel.asar') == hashFiles('electron/dist/kernel.asar')
         uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
