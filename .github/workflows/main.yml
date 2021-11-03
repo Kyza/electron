@@ -49,11 +49,14 @@ jobs:
       - name: Current Date
         run: echo "$(date +'%Y-%m-%dT%H:%M:%S')"
         id: now
+        
+      - uses: benjlevesque/short-sha@v1.2
+        id: short-sha
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.13
         with:
           name: ${{ steps.now.outputs.content }}
-          tag_name: ${{ ${github.sha::7} }}
+          tag_name: ${{ steps.short-sha.outputs.sha }}
           body: ${{ join(github.event.commits.*.message, steps.newline.outputs.content) }}
           files: "electron/dist/kernel.asar"
