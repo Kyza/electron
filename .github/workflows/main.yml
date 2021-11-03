@@ -35,11 +35,21 @@ jobs:
           cd ../electron
           pnpm i
           pnpm run build
+          
+      - name: Newline
+        run: |
+          NEWLINE=$(cat << EOF
+          EOF)
+          NEWLINE="${NEWLINE//'%'/'%25'}"
+          NEWLINE="${NEWLINE//$'\n'/'%0A'}"
+          NEWLINE="${NEWLINE//$'\r'/'%0D'}"
+          echo "::set-output name=content::$NEWLINE"
+        id: newline
 
       - name: Release
         uses: softprops/action-gh-release@v0.1.13
         with:
           name: ${{ github.sha }}
           tag_name: ${{ hashFiles('./electron/dist/kernel.asar') }}
-          body: ${{ join(github.event.commits.*.message, '\n') }}
+          body: ${{ join(github.event.commits.*.message, ${{ steps.newline.outputs.content }}) }}
           files: "electron/dist/kernel.asar"
