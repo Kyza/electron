@@ -24,7 +24,7 @@ jobs:
         id: now-name
 
       - name: Current Date
-        run: echo "::set-output name=content::$(date +'%Y-%m-%dT%H:%M:%S')"
+        run: echo "::set-output name=content::$(date +'%Y-%m-%d-%H-%M-%S')"
         id: now-tag
         
       - uses: actions/checkout@v2
