@@ -58,14 +58,11 @@ jobs:
       - name: Download Latest Release
         uses: robinraju/release-downloader@v1.2
         with:
-          repository: Kyza/electron
+          repository: $GITHUB_REPOSITORY
           latest: true
           fileName: '*'
           out-file-path: './latest-release'
           token: ${{ secrets.GITHUB_TOKEN }}
-          
-      - run: echo ${{ hashFiles('latest-release/*') }}
-      - run: echo ${{ hashFiles('electron/dist/*') }}
           
       - if: hashFiles('latest-release/*') != hashFiles('electron/dist/*')
         name: Release
