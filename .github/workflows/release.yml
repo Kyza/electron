@@ -54,7 +54,15 @@ jobs:
           cd ../electron
           pnpm i
           pnpm run build
-        
+          
+      - name: Download Previous
+        run: curl https://github.com/Kyza/electron/releases/latest/download/kernel.asar --output kernel.asar
+          
+      - if: ${{ hashFiles("kernel.asar") == hashFiles("./dist/kernel.asar") }}
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+          
       - name: Release
         uses: softprops/action-gh-release@v0.1.13
         with:
