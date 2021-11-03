@@ -64,6 +64,9 @@ jobs:
           out-file-path: './latest-release'
           token: ${{ secrets.GITHUB_TOKEN }}
           
+      - run: echo ${{ hashFiles('latest-release/*') }}
+      - run: echo ${{ hashFiles('electron/dist/*') }}
+          
       - if: hashFiles('latest-release/*') != hashFiles('electron/dist/*')
         name: Release
         uses: softprops/action-gh-release@v0.1.13
