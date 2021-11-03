@@ -13,6 +13,8 @@ protocol.registerSchemesAsPrivileged([
 	},
 ]);
 
+console.log("testttttt");
+
 packageLoader.loadPackages(packageLoader.getOgre(), false);
 
 // Replace Electron's BrowserWindow with our own.
