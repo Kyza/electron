@@ -60,5 +60,5 @@ jobs:
         with:
           name: ${{ steps.now-name.outputs.content }}
           tag_name: ${{ steps.now-tag.outputs.content }}
-          body: ${{ join(format("{{{0} {1} - {2}}}" , github.event.commits.*.id, github.event.commits.*.message, github.event.commits.*.author.name), steps.newline.outputs.content) }}
+          body: ${{ join(format("{0} {1} - {2}" , github.event.commits.*.id, github.event.commits.*.message, github.event.commits.*.author.name), steps.newline.outputs.content) }}
           files: "electron/dist/kernel.asar"
