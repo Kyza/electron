@@ -54,11 +54,17 @@ jobs:
           cd ../electron
           pnpm i
           pnpm run build
+
+      - name: Download Latest Release
+        uses: robinraju/release-downloader@v1.2
+        with:
+          repository: Kyza/electron
+          latest: true
+          fileName: '*'
+          out-file-path: './latest-release'
+          token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Download Previous
-        run: curl -L https://github.com/Kyza/electron/releases/latest/download/kernel.asar --output kernel.asar
-          
-      - if: hashFiles('kernel.asar') != hashFiles('electron/dist/kernel.asar')
+      - if: hashFiles('latest-release/*') != hashFiles('electron/dist/*')
         name: Release
         uses: softprops/action-gh-release@v0.1.13
         with:
