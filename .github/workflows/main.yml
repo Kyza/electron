@@ -40,6 +40,6 @@ jobs:
         uses: softprops/action-gh-release@v0.1.13
         with:
           name: ${{ github.sha }}
-          tag_name: ${{ hashFiles('./dist/kernel.asar') }}
+          tag_name: ${{ hashFiles('./electron/dist/kernel.asar') }}
           body: ${{ join(github.event.commits.*.message, '\n') }}
           files: "electron/dist/kernel.asar"
