@@ -21,7 +21,11 @@ jobs:
         
       - name: Current Date
         run: echo "::set-output name=content::$(date +'%Y-%m-%d %H:%M:%S')"
-        id: now
+        id: now-name
+
+      - name: Current Date
+        run: echo "::set-output name=content::$(date +'%Y-%m-%d')"
+        id: now-tag
 
       - uses: actions/checkout@v2
         with:
@@ -54,7 +58,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v0.1.13
         with:
-          name: ${{ steps.now.outputs.content }}
-          tag_name: ${{ steps.now.outputs.content }}
-          body: ${{ join(github.event.commits.*.message, steps.newline.outputs.content) }}
+          name: ${{ steps.now-name.outputs.content }}
+          tag_name: ${{ steps.now-tag.outputs.content }}
+          body: ${{ join(github.event.commits.*.id + " - " + github.event.commits.*.message + " - " + github.event.commits.*.author.name, steps.newline.outputs.content) }}
           files: "electron/dist/kernel.asar"
